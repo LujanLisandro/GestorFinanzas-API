@@ -42,9 +42,7 @@ public class Movement {
     @JoinColumn(name = "balance_id", nullable = false)
     private Balance balance;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    private String category;
 
     @PrePersist
     protected void onCreate() {

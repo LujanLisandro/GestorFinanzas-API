@@ -42,7 +42,4 @@ public class Category {
     @JsonBackReference
     private UserSec user;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Movement> movements = new ArrayList<>();
-
 }
