@@ -18,11 +18,6 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category updateCategory(Category category) {
-        return categoryRespository.save(category);
-    }
-
-    @Override
     public void deleteById(Long id) {
         categoryRespository.deleteById(id);
     }
@@ -35,6 +30,11 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category getCategoryById(Long id) {
         return categoryRespository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Category updateCategory(String name, String description, String emoji) {
+
     }
 
 }

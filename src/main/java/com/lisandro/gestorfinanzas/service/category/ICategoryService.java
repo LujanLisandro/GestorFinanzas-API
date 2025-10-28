@@ -11,12 +11,14 @@ public interface ICategoryService {
 
     Category createCategory(Category category);
 
-    Category updateCategory(Category category);
+    Category updateCategory(String name, String description, String emoji);
 
     void deleteById(Long id);
 
     List<Category> getAllCategory();
 
     Category getCategoryById(Long id);
+
+    Category updateCategory(Category category);
 
 }
