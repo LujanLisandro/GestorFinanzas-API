@@ -47,13 +47,6 @@ public class UserController {
         // ENCRIPTAR CONTRASEÑA
         user.setPassword(userService.encriptPassword(user.getPassword()));
 
-        // Establecer valores por defecto
-        user.setEnabled(true);
-        user.setAccountNotExpired(true);
-        user.setAccountNotLocked(true);
-        user.setCredentialNotExpired(true);
-
-        // Validar roles
         for (Role rol : user.getRolesList()) {
             readRol = roleService.findById(rol.getId()).orElse(null);
             if (readRol != null) {
@@ -61,9 +54,9 @@ public class UserController {
             }
         }
         user.setRolesList(validList);
+        userService.save(user);
+        return ResponseEntity.ok(user);
 
-        UserSec savedUser = userService.save(user);
-        return ResponseEntity.ok(savedUser);
     }
 
 }
