@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lisandro.gestorfinanzas.dto.CategoryDTO.CategoryDTO;
 import com.lisandro.gestorfinanzas.model.Category;
 import com.lisandro.gestorfinanzas.repository.ICategoryRepository;
 
@@ -33,8 +34,25 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category updateCategory(String name, String description, String emoji) {
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
+        // 1. Buscar la categoría existente
+        Category category = categoryRespository.findById(categoryDTO.id())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + categoryDTO.id()));
 
+        // 2. Actualizar los campos con los datos del DTO
+        category.setName(categoryDTO.name());
+        category.setDescription(categoryDTO.description());
+        category.setEmoji(categoryDTO.emoji());
+
+        // 3. Guardar la categoría actualizada
+        Category updatedCategory = categoryRespository.save(category);
+
+        // 4. Convertir la entidad guardada a DTO y retornar
+        return new CategoryDTO(
+                updatedCategory.getId(),
+                updatedCategory.getName(),
+                updatedCategory.getDescription(),
+                updatedCategory.getEmoji());
     }
 
 }
