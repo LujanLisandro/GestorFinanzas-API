@@ -11,32 +11,35 @@ import com.lisandro.gestorfinanzas.repository.ICategoryRepository;
 public class CategoryService implements ICategoryService {
 
     @Autowired
-    private ICategoryRepository categoryRespository;
+    private ICategoryRepository categoryRepository;
 
     @Override
-    public Category createCategory(Category category) {
-        return categoryRespository.save(category);
+    public Category save(Category category) {
+        return categoryRepository.save(category);
     }
 
     @Override
     public void deleteById(Long id) {
-        categoryRespository.deleteById(id);
+        if (!categoryRepository.existsById(id)) {
+            throw new RuntimeException("Categoría no encontrada");
+        }
+        categoryRepository.deleteById(id);
     }
 
     @Override
     public List<Category> getAllCategory() {
-        return categoryRespository.findAll();
+        return categoryRepository.findAll();
     }
 
     @Override
     public Category getCategoryById(Long id) {
-        return categoryRespository.findById(id).orElse(null);
+        return categoryRepository.findById(id).orElse(null);
     }
 
     @Override
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
         // 1. Buscar la categoría existente
-        Category category = categoryRespository.findById(categoryDTO.id())
+        Category category = categoryRepository.findById(categoryDTO.id())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + categoryDTO.id()));
 
         // 2. Actualizar los campos con los datos del DTO
@@ -45,7 +48,7 @@ public class CategoryService implements ICategoryService {
         category.setEmoji(categoryDTO.emoji());
 
         // 3. Guardar la categoría actualizada
-        Category updatedCategory = categoryRespository.save(category);
+        Category updatedCategory = categoryRepository.save(category);
 
         // 4. Convertir la entidad guardada a DTO y retornar
         return new CategoryDTO(

@@ -10,7 +10,7 @@ import com.lisandro.gestorfinanzas.model.Category;
 @Service
 public interface ICategoryService {
 
-    Category createCategory(Category category);
+    Category save(Category category);
 
     void deleteById(Long id);
 
