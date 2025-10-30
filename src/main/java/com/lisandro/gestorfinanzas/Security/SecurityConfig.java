@@ -35,6 +35,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Deshabilita una proteccion INVESTIGAR
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Politica
                 .httpBasic(Customizer.withDefaults())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll() // Público
+                        .anyRequest().authenticated() // Todo lo demás protegido
+                )
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class);
         return http.build(); // "CREAR" LA HTTP Y BUILDERLA
     }

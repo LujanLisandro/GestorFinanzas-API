@@ -3,11 +3,13 @@ package com.lisandro.gestorfinanzas.service.category;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.lisandro.gestorfinanzas.dto.CategoryDTO.CategoryDTO;
 import com.lisandro.gestorfinanzas.model.Category;
 import com.lisandro.gestorfinanzas.repository.ICategoryRepository;
 
+@Service
 public class CategoryService implements ICategoryService {
 
     @Autowired
