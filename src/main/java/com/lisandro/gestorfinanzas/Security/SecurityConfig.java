@@ -19,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.lisandro.gestorfinanzas.Security.Filter.JwtTokenValidator;
+import com.lisandro.gestorfinanzas.service.auth.TokenBlacklistService;
 import com.lisandro.gestorfinanzas.utils.JwtUtils;
 
 @Configuration
@@ -29,17 +30,22 @@ public class SecurityConfig {
     @Autowired
     private JwtUtils jwtUtils;
 
+    @Autowired
+    private TokenBlacklistService tokenBlacklistService;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // Deshabilita una proteccion INVESTIGAR
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Politica
-                .httpBasic(Customizer.withDefaults())
+                .logout(logout -> logout.disable()) // Deshabilita logout automático (no se usa con JWT)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // Público
+                        .requestMatchers("/balance/**").authenticated() // Solo autenticado, sin roles
                         .anyRequest().authenticated() // Todo lo demás protegido
                 )
-                .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class);
+                .addFilterBefore(new JwtTokenValidator(jwtUtils, tokenBlacklistService),
+                        BasicAuthenticationFilter.class);
         return http.build(); // "CREAR" LA HTTP Y BUILDERLA
     }
 

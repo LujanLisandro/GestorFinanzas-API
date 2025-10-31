@@ -2,6 +2,9 @@ package com.lisandro.gestorfinanzas.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,6 +23,7 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Balance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +36,7 @@ public class Balance {
     private List<Stock> stockList;
 
     @OneToOne(mappedBy = "balance")
+    @JsonBackReference
     private UserSec user;
 
 }

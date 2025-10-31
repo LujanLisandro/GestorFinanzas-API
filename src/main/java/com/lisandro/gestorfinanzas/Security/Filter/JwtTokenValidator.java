@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.lisandro.gestorfinanzas.service.auth.TokenBlacklistService;
 import com.lisandro.gestorfinanzas.utils.JwtUtils;
 
 import jakarta.servlet.FilterChain;
@@ -25,9 +26,11 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtTokenValidator extends OncePerRequestFilter {
 
     private JwtUtils jwtUtils;
+    private TokenBlacklistService tokenBlacklistService;
 
-    public JwtTokenValidator(JwtUtils jwtUtils) {
+    public JwtTokenValidator(JwtUtils jwtUtils, TokenBlacklistService tokenBlacklistService) {
         this.jwtUtils = jwtUtils;
+        this.tokenBlacklistService = tokenBlacklistService;
     }
 
     @Override
@@ -37,24 +40,47 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (jwtToken != null) {
+        if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
             // Recibo el token a traves del header y le saco la palabra bearer
             jwtToken = jwtToken.substring(7);
-            // Se decodifica el token
-            DecodedJWT decodedJWT = jwtUtils.validateToken(jwtToken);
-            // Traemos el nombre de usuario del claim
-            String username = jwtUtils.extractUsername(decodedJWT);
-            // Traemos los permisos del claim
-            String authorities = jwtUtils.getSpecificClaim(decodedJWT, "authorities").asString();
 
-            Collection<? extends GrantedAuthority> authoritiesList = AuthorityUtils
-                    .commaSeparatedStringToAuthorityList(authorities);
+            // Verificar si el token está en la blacklist
+            if (tokenBlacklistService.isTokenBlacklisted(jwtToken)) {
+                System.out.println("⛔ Token en blacklist - logout realizado");
+                filterChain.doFilter(request, response);
+                return; // No autenticar
+            }
 
-            SecurityContext context = SecurityContextHolder.getContext();
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authoritiesList);
-            context.setAuthentication(authentication);
-            SecurityContextHolder.setContext(context);
+            try {
+                // Se decodifica el token
+                DecodedJWT decodedJWT = jwtUtils.validateToken(jwtToken);
+                // Traemos el nombre de usuario del claim
+                String username = jwtUtils.extractUsername(decodedJWT);
+                // Traemos los permisos del claim
+                String authoritiesString = jwtUtils.getSpecificClaim(decodedJWT, "authorities").asString();
 
+                // Manejar authorities vacías o null
+                Collection<? extends GrantedAuthority> authoritiesList;
+                if (authoritiesString != null && !authoritiesString.isEmpty()) {
+                    authoritiesList = AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesString);
+                } else {
+                    authoritiesList = AuthorityUtils.NO_AUTHORITIES;
+                }
+
+                SecurityContext context = SecurityContextHolder.getContext();
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
+                        authoritiesList);
+                context.setAuthentication(authentication);
+                SecurityContextHolder.setContext(context);
+
+                System.out.println("✅ Usuario autenticado: " + username);
+                System.out.println("✅ Authorities: " + authoritiesList);
+            } catch (Exception e) {
+                // Si hay error al validar, simplemente no autenticamos
+                // El filtro de seguridad manejará la respuesta 401/403
+                System.out.println("❌ ERROR AL VALIDAR TOKEN: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
         filterChain.doFilter(request, response);
     }

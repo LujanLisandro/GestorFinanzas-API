@@ -11,8 +11,10 @@ import com.lisandro.gestorfinanzas.model.Balance;
 import com.lisandro.gestorfinanzas.service.balance.IBalanceService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/balance")
 public class BalanceController {
     @Autowired
     private IBalanceService balanceService;
@@ -24,7 +26,7 @@ public class BalanceController {
 
     }
 
-    @GetMapping("/me/balance")
+    @GetMapping("/me")
     public ResponseEntity<Balance> getUserBalance(Authentication auth) {
         Balance balance = balanceService.findByUsername(auth.getName());
         return ResponseEntity.ok(balance);
