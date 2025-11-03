@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
-@RequestMapping("/balance")
+@RequestMapping("api/balance")
 public class BalanceController {
     @Autowired
     private IBalanceService balanceService;
