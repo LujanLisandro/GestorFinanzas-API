@@ -35,6 +35,9 @@ public class Balance {
     @OneToMany(mappedBy = "balance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Stock> stockList;
 
+    @OneToMany(mappedBy = "balance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Movement> movements;
+
     @OneToOne(mappedBy = "balance")
     @JsonBackReference
     private UserSec user;

@@ -17,7 +17,7 @@ import com.lisandro.gestorfinanzas.dto.AuthLoginRequestDTO;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("auth")
 public class AuthenticationController {
 
     @Autowired

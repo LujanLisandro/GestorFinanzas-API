@@ -2,6 +2,8 @@ package com.lisandro.gestorfinanzas.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,9 +42,13 @@ public class Movement {
 
     @ManyToOne
     @JoinColumn(name = "balance_id", nullable = false)
+    @JsonBackReference
     private Balance balance;
 
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    @JsonBackReference
+    private Category category;
 
     @PrePersist
     protected void onCreate() {

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.lisandro.gestorfinanzas.dto.CategoryDTO.CategoryDTO;
 import com.lisandro.gestorfinanzas.model.Category;
+import com.lisandro.gestorfinanzas.model.UserSec;
 import com.lisandro.gestorfinanzas.repository.ICategoryRepository;
+import com.lisandro.gestorfinanzas.service.user.IUserService;
 
 @Service
 public class CategoryService implements ICategoryService {
@@ -15,8 +17,17 @@ public class CategoryService implements ICategoryService {
     @Autowired
     private ICategoryRepository categoryRepository;
 
+    @Autowired
+    private IUserService userService;
+
     @Override
-    public Category save(Category category) {
+    public Category save(CategoryDTO dto, String username) {
+        UserSec user = userService.findByUsername(username);
+        Category category = new Category();
+        category.setName(dto.name());
+        category.setDescription(dto.description());
+        category.setEmoji(dto.emoji());
+        category.setUser(user);
         return categoryRepository.save(category);
     }
 
@@ -29,8 +40,10 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public List<Category> getAllCategory() {
-        return categoryRepository.findAll();
+    public List<Category> getAllCategoryUser(String username) {
+        UserSec user = userService.findByUsername(username);
+        List <Category> categoryList = user.getCategories();
+        return categoryList;
     }
 
     @Override
@@ -38,7 +51,7 @@ public class CategoryService implements ICategoryService {
         return categoryRepository.findById(id).orElse(null);
     }
 
-    @Override
+   /* @Override
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
         // 1. Buscar la categoría existente
         Category category = categoryRepository.findById(categoryDTO.id())
@@ -58,6 +71,6 @@ public class CategoryService implements ICategoryService {
                 updatedCategory.getName(),
                 updatedCategory.getDescription(),
                 updatedCategory.getEmoji());
-    }
+    }*/
 
 }

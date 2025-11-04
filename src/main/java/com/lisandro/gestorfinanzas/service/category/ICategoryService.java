@@ -10,14 +10,14 @@ import com.lisandro.gestorfinanzas.model.Category;
 @Service
 public interface ICategoryService {
 
-    Category save(Category category);
+    Category save(CategoryDTO dto, String username);
 
     void deleteById(Long id);
 
-    List<Category> getAllCategory();
+    List<Category> getAllCategoryUser(String username);
 
     Category getCategoryById(Long id);
 
-    CategoryDTO updateCategory(CategoryDTO categoryDTO);
+   // CategoryDTO updateCategory(CategoryDTO categoryDTO);
 
 }
