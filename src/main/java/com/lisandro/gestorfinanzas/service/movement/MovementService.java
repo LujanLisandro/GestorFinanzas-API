@@ -9,7 +9,7 @@ import com.lisandro.gestorfinanzas.repository.IMovementRepository;
 public class MovementService implements IMovementService {
 
     @Autowired
-    IMovementRepository movementRepository;
+    private IMovementRepository movementRepository;
 
     @Override
     public Movement saveMovement(Movement movement) {
