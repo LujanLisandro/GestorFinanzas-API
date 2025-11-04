@@ -50,8 +50,9 @@ public class CategoryController {
         return ResponseEntity.noContent().build(); // 204 solo si se eliminó
     }
 
-    @PutMapping
-    public ResponseEntity<CategoryDTO> editCategory(@RequestBody CategoryDTO categoryDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Category> editCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable Long id, Authentication auth) {
+        Category category = categoryService.
         return ResponseEntity.ok(categoryDTO);
     }
 }

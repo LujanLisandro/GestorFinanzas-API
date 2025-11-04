@@ -51,8 +51,8 @@ public class CategoryService implements ICategoryService {
         return categoryRepository.findById(id).orElse(null);
     }
 
-   /* @Override
-    public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
+    @Override
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO, Long id, String username) {
         // 1. Buscar la categoría existente
         Category category = categoryRepository.findById(categoryDTO.id())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + categoryDTO.id()));
@@ -71,6 +71,6 @@ public class CategoryService implements ICategoryService {
                 updatedCategory.getName(),
                 updatedCategory.getDescription(),
                 updatedCategory.getEmoji());
-    }*/
+    }
 
 }

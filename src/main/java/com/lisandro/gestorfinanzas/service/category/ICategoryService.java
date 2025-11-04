@@ -18,6 +18,6 @@ public interface ICategoryService {
 
     Category getCategoryById(Long id);
 
-   // CategoryDTO updateCategory(CategoryDTO categoryDTO);
+    CategoryDTO updateCategory(CategoryDTO categoryDTO, Long id, String username);
 
 }
