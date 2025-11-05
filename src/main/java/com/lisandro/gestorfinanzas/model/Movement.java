@@ -33,7 +33,7 @@ public class Movement {
 
     private Double amount;
 
-    private MovementType movmentType;
+    private MovementType movementType;
 
     private Currency currency;
 

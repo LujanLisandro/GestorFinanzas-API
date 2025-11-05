@@ -3,6 +3,7 @@ package com.lisandro.gestorfinanzas.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ public class MovementController {
     IMovementService movementService;
 
     @PostMapping
-    public ResponseEntity<Movement> createMovement(@RequestBody Movement movement){
+    public ResponseEntity<Movement> createMovement(@RequestBody Movement movement, @PathVariable Long id){
         Movement createdMovement = movementService.saveMovement(movement);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMovement);
     }
