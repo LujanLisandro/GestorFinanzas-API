@@ -51,8 +51,8 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> editCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable Long id, Authentication auth) {
-        Category category = categoryService.
-        return ResponseEntity.ok(categoryDTO);
+    public ResponseEntity<CategoryDTO> editCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable Long id, Authentication auth) {
+        CategoryDTO editCategory = categoryService.updateCategory(categoryDTO, id, auth.getName());
+        return ResponseEntity.ok(editCategory);
     }
 }

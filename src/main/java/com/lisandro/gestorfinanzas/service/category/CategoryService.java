@@ -54,8 +54,8 @@ public class CategoryService implements ICategoryService {
     @Override
     public CategoryDTO updateCategory(CategoryDTO categoryDTO, Long id, String username) {
         // 1. Buscar la categoría existente
-        Category category = categoryRepository.findById(categoryDTO.id())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + categoryDTO.id()));
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + id));
 
         // 2. Actualizar los campos con los datos del DTO
         category.setName(categoryDTO.name());
@@ -67,7 +67,6 @@ public class CategoryService implements ICategoryService {
 
         // 4. Convertir la entidad guardada a DTO y retornar
         return new CategoryDTO(
-                updatedCategory.getId(),
                 updatedCategory.getName(),
                 updatedCategory.getDescription(),
                 updatedCategory.getEmoji());
