@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -36,10 +37,11 @@ public class Balance {
     private List<Stock> stockList;
 
     @OneToMany(mappedBy = "balance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference("balance-movements")  // Nombre único para la relación Balance-Movement
     private List<Movement> movements;
 
     @OneToOne(mappedBy = "balance")
-    @JsonBackReference
+    @JsonBackReference("user-balance")  // Debe coincidir con el nombre en UserSec
     private UserSec user;
 
 }

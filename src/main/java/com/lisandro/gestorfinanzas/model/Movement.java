@@ -42,12 +42,12 @@ public class Movement {
 
     @ManyToOne
     @JoinColumn(name = "balance_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("balance-movements")  // Debe coincidir con el nombre en Balance
     private Balance balance;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("category-movements")  // Debe coincidir con el nombre en Category
     private Category category;
 
     @PrePersist

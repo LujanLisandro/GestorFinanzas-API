@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .logout(logout -> logout.disable()) // Deshabilita logout automático (no se usa con JWT)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // Público
+                        .requestMatchers("/api/users").permitAll() // Público
                         .anyRequest().authenticated() // Todo lo demás protegido
                 )
                 .addFilterBefore(new JwtTokenValidator(jwtUtils, tokenBlacklistService),

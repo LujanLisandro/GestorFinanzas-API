@@ -38,11 +38,11 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("user-categories")  // Debe coincidir con el nombre en UserSec
     private UserSec user;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("category-movements")  // Nombre único para la relación Category-Movement
     private List<Movement> movements;
 
 }

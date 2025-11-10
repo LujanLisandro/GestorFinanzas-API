@@ -49,12 +49,12 @@ public class UserSec {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "balance_id", referencedColumnName = "id")
-    @JsonManagedReference
+    @JsonManagedReference("user-balance")  // Nombre único para la relación User-Balance
     private Balance balance;
 
     // Lista de categorias
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("user-categories")  // Nombre único para la relación User-Category
     private List<Category> categories;
 
     // Crear balance por default
