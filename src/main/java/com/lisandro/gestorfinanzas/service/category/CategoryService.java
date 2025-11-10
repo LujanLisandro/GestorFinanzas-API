@@ -47,8 +47,15 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElse(null);
+    public Category getCategoryById(Long id, String username) {
+        Category category = categoryRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Categoria no encontrada con id: " + id));
+        
+        // Comparación ignorando mayúsculas/minúsculas
+        if (!category.getUser().getUsername().equalsIgnoreCase(username)){
+            throw new RuntimeException("No tienes permiso para acceder a esta categoria");
+        }
+        return category;
     }
 
     @Override

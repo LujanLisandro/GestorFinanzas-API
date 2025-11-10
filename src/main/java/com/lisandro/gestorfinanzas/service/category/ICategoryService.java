@@ -16,7 +16,7 @@ public interface ICategoryService {
 
     List<Category> getAllCategoryUser(String username);
 
-    Category getCategoryById(Long id);
+    Category getCategoryById(Long id, String username);
 
     CategoryDTO updateCategory(CategoryDTO categoryDTO, Long id, String username);
 

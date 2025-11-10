@@ -31,11 +31,11 @@ public class CategoryController {
         return ResponseEntity.ok(categoryList);
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<Category> getCategory(@PathVariable Long id) {
 
         return ResponseEntity.ok(categoryService.getCategoryById(id));
-    }
+    }*/
 
     @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody CategoryDTO categoryDTO, Authentication auth) {

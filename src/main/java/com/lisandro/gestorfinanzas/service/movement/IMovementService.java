@@ -1,10 +1,13 @@
 package com.lisandro.gestorfinanzas.service.movement;
 
+import java.util.List;
+
 import com.lisandro.gestorfinanzas.dto.Movement.MovementDTO;
-import com.lisandro.gestorfinanzas.model.Movement;
+import com.lisandro.gestorfinanzas.dto.Movement.MovementResponseDTO;
 
 public interface IMovementService {
-    Movement saveMovement(MovementDTO dto, String username);
+    MovementResponseDTO saveMovement(MovementDTO dto, String username);
 
+    List<MovementResponseDTO> getAllMovements(String username);
     void updateMovement();
 }
