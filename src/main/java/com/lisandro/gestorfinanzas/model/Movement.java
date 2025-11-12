@@ -36,6 +36,8 @@ public class Movement {
     private MovementType movementType;
 
     private Currency currency;
+    
+    private String reference;
 
     @Column(nullable = false)
     private LocalDateTime fecha;

@@ -12,6 +12,7 @@ public record MovementResponseDTO(
     Double amount,
     MovementType movementType,
     Currency currency,
+    String reference,
     LocalDateTime fecha,
     CategorySummaryDTO category
 ) 

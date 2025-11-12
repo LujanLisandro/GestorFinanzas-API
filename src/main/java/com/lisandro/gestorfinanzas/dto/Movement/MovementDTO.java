@@ -6,7 +6,8 @@ import com.lisandro.gestorfinanzas.model.Movement.MovementType;
 public record MovementDTO(
     String description, 
     Double amount, 
-    MovementType movementType, 
+    MovementType movementType,
+    String reference,
     Currency currency, 
     Long categoryID
     )

@@ -35,6 +35,7 @@ public class MovementService implements IMovementService {
         movement.setDescription(dto.description());
         movement.setMovementType(dto.movementType());
         movement.setCurrency(dto.currency());
+        movement.setReference(username);
         movement.setCategory(category);
         // fecha se asigna automáticamente por @PrePersist
         
@@ -52,6 +53,7 @@ public class MovementService implements IMovementService {
             movement.getAmount(),
             movement.getMovementType(),
             movement.getCurrency(),
+            movement.getReference(),
             movement.getFecha(),
             new CategorySummaryDTO(
                 movement.getCategory().getId(),
