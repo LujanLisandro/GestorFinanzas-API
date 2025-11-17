@@ -13,7 +13,7 @@ public record MovementResponseDTO(
     MovementType movementType,
     Currency currency,
     String reference,
-    LocalDateTime fecha,
+    LocalDateTime date,
     CategorySummaryDTO category
 ) 
 {}

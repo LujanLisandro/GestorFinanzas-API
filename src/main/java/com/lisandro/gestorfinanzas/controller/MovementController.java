@@ -1,5 +1,6 @@
 package com.lisandro.gestorfinanzas.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lisandro.gestorfinanzas.dto.Movement.MovementDTO;
 import com.lisandro.gestorfinanzas.dto.Movement.MovementResponseDTO;
+import com.lisandro.gestorfinanzas.model.Movement.MovementType;
 import com.lisandro.gestorfinanzas.service.movement.IMovementService;
 
 @RestController
@@ -29,8 +32,20 @@ public class MovementController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MovementResponseDTO>> getMovementsByUser(Authentication auth){
+    public ResponseEntity<List<MovementResponseDTO>> getMovementsByUser(
+        Authentication auth,
+        @RequestParam(required = false) LocalDate startDate,
+        @RequestParam(required = false) LocalDate endDate,
+        @RequestParam(required = false) Long categoryId,
+        @RequestParam(required = false) MovementType type
+    ){
 
-        return ResponseEntity.status(HttpStatus.OK).body(movementService.getAllMovements(auth.getName()));
+        return ResponseEntity.status(HttpStatus.OK).body(movementService.getAllMovements(
+            auth.getName(),
+            startDate,
+            endDate,
+            categoryId,
+            type
+        ));
     }
 }

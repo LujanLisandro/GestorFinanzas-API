@@ -40,7 +40,7 @@ public class Movement {
     private String reference;
 
     @Column(nullable = false)
-    private LocalDateTime fecha;
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "balance_id", nullable = false)
@@ -54,8 +54,8 @@ public class Movement {
 
     @PrePersist
     protected void onCreate() {
-        if (fecha == null) {
-            fecha = LocalDateTime.now();
+        if (date == null) {
+            date = LocalDateTime.now();
         }
     }
 
@@ -75,14 +75,19 @@ public class Movement {
     }
 
     public enum MovementType {
-        INGRESO("Ingreso"),
-        EGRESO("Egreso"),
-        TRANSFERENCIA("Transferencia");
+        INGRESO(1,"Ingreso"),
+        EGRESO(-1,"Egreso");
 
+        private final int factor;
         private final String description;
 
-        MovementType(String description) {
+        MovementType(int factor,String description) {
+            this.factor = factor;
             this.description = description;
+        }
+
+        public int getFactor(){
+            return factor;
         }
 
         public String getDescription() {
