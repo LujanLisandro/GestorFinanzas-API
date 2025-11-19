@@ -1,9 +1,11 @@
 package com.lisandro.gestorfinanzas.service.movement;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -78,19 +80,19 @@ public class MovementService implements IMovementService {
         );
     }
 
-    public List<MovementResponseDTO> getAllMovements(String username, LocalDate startDate, LocalDate endDate, Long categoryId, Movement.MovementType type) {
+    public Page<MovementResponseDTO> getAllMovements(String username, LocalDate startDate, LocalDate endDate, Long categoryId, Movement.MovementType type, Pageable pageable) {
         Balance balance = balanceService.findByUsername(username);
 
         Specification<Movement> spec = MovementSpecifications.hasBalance(balance);
         
         if (startDate != null) {
-            spec = spec.and(MovementSpecifications.dateStart(startDate));
-
+            LocalDateTime start = startDate.atStartOfDay();
+            spec = spec.and(MovementSpecifications.dateStart(start));
         }
 
         if (endDate != null){
-            spec = spec.and(MovementSpecifications.dateEnd(endDate));
-
+            LocalDateTime end = endDate.atTime(23, 59, 59);
+            spec = spec.and(MovementSpecifications.dateEnd(end));
         }
 
         if(categoryId != null){
@@ -102,11 +104,9 @@ public class MovementService implements IMovementService {
             spec = spec.and(MovementSpecifications.hasMovementType(type));
         }
 
-        List<Movement> movements = movementRepository.findAll(spec);
+        Page<Movement> movementsPage = movementRepository.findAll(spec, pageable);
         
-        return movements.stream()
-            .map(this::mapToResponseDTO)
-            .toList();
+        return movementsPage.map(this::mapToResponseDTO);
     }
     
 

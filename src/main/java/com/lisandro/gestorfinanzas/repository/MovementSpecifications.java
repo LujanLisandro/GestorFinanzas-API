@@ -1,6 +1,6 @@
 package com.lisandro.gestorfinanzas.repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -15,12 +15,12 @@ public class MovementSpecifications {
 
     }
 
-    public static Specification<Movement> dateStart(LocalDate startDate){
+    public static Specification<Movement> dateStart(LocalDateTime startDate){
         return (root,query,criteriaBuilder) ->
             criteriaBuilder.greaterThanOrEqualTo(root.get("date"), startDate);
     }
 
-    public static Specification<Movement> dateEnd (LocalDate endDate){
+    public static Specification<Movement> dateEnd (LocalDateTime endDate){
         return (root,query,criteriaBuilder) ->
             criteriaBuilder.lessThanOrEqualTo(root.get("date"), endDate);
     }

@@ -1,9 +1,10 @@
 package com.lisandro.gestorfinanzas.controller;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,12 +33,13 @@ public class MovementController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MovementResponseDTO>> getMovementsByUser(
+    public ResponseEntity<Page<MovementResponseDTO>> getMovementsByUser(
         Authentication auth,
         @RequestParam(required = false) LocalDate startDate,
         @RequestParam(required = false) LocalDate endDate,
         @RequestParam(required = false) Long categoryId,
-        @RequestParam(required = false) MovementType type
+        @RequestParam(required = false) MovementType type,
+        Pageable pageable
     ){
 
         return ResponseEntity.status(HttpStatus.OK).body(movementService.getAllMovements(
@@ -45,7 +47,8 @@ public class MovementController {
             startDate,
             endDate,
             categoryId,
-            type
+            type,
+            pageable
         ));
     }
 }
