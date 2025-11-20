@@ -14,5 +14,5 @@ public interface IMovementService {
 
     Page<MovementResponseDTO> getAllMovements(String username, LocalDate startDate, LocalDate endDate, Long categoryId, MovementType type, Pageable pageable);
 
-    void updateMovement();
+    void updateMovement(Long movementId, MovementDTO dto, String username);
 }

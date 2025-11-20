@@ -111,7 +111,21 @@ public class MovementService implements IMovementService {
     
 
     @Override
-    public void updateMovement() {
+    public void updateMovement(Long movementId, MovementDTO dto, String username) {
+        //Busco el movimiento
+        Movement existingMovement = movementRepository.findById(movementId).orElseThrow(()
+        -> new RuntimeException("No tienes permisos para modificar el movimiento"));
+
+        //Busco el balance
+        Balance balance = balanceService.findByUsername(username);
+
+        if (!existingMovement.getBalance().equals(balance)){
+            throw new RuntimeException("Ese movimiento no pertenece al balance");
+        }
+
+        existingMovement.setAmount(dto.amount());
+        existingMovement.set(dto.categoryID());
+
     
     }
 }
