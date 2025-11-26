@@ -123,8 +123,17 @@ public class MovementService implements IMovementService {
             throw new RuntimeException("Ese movimiento no pertenece al balance");
         }
 
+        // Busco la categoria 
+        Category category = categoryService.getCategoryById(dto.categoryID(), username);
         existingMovement.setAmount(dto.amount());
-        existingMovement.set(dto.categoryID());
+        existingMovement.setCategory(category);
+        existingMovement.setCurrency(dto.currency());
+        existingMovement.setDate(dto.date());
+        existingMovement.setDescription(dto.description());
+        existingMovement.setMovementType(dto.movementType());
+        existingMovement.setReference(dto.reference());
+
+
 
     
     }

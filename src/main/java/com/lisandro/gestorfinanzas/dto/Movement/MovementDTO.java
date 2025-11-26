@@ -1,4 +1,5 @@
 package com.lisandro.gestorfinanzas.dto.Movement;
+import java.time.LocalDateTime;
 
 import com.lisandro.gestorfinanzas.model.Movement.Currency;
 import com.lisandro.gestorfinanzas.model.Movement.MovementType;
@@ -9,6 +10,7 @@ public record MovementDTO(
     MovementType movementType,
     String reference,
     Currency currency, 
-    Long categoryID
+    Long categoryID,
+    LocalDateTime date
     )
 {}
