@@ -111,30 +111,53 @@ public class MovementService implements IMovementService {
     
 
     @Override
-    public void updateMovement(Long movementId, MovementDTO dto, String username) {
-        //Busco el movimiento
-        Movement existingMovement = movementRepository.findById(movementId).orElseThrow(()
-        -> new RuntimeException("No tienes permisos para modificar el movimiento"));
+    public MovementResponseDTO updateMovement(Long movementId, MovementDTO dto, String username) {
+        // 1. Buscar movimiento
+        Movement existingMovement = movementRepository.findById(movementId)
+            .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
 
-        //Busco el balance
+        // 2. Buscar balance y verificar permisos
         Balance balance = balanceService.findByUsername(username);
-
+        
         if (!existingMovement.getBalance().equals(balance)){
-            throw new RuntimeException("Ese movimiento no pertenece al balance");
+            throw new RuntimeException("No tienes permisos para modificar este movimiento");
         }
 
-        // Busco la categoria 
+        // 3. REVERTIR el impacto del movimiento anterior en el balance
+        double oldImpact = existingMovement.getMovementType().getFactor() * existingMovement.getAmount();
+        if (existingMovement.getCurrency() == Currency.ARS) {
+            balance.setArs(balance.getArs() - oldImpact);
+        } else {
+            balance.setDolares(balance.getDolares() - oldImpact);
+        }
+
+        // 4. APLICAR el impacto del nuevo movimiento al balance
+        double newImpact = dto.movementType().getFactor() * dto.amount();
+        if (dto.currency() == Currency.ARS) {
+            balance.setArs(balance.getArs() + newImpact);
+        } else {
+            balance.setDolares(balance.getDolares() + newImpact);
+        }
+        
+        // 5. Guardar balance actualizado
+        balanceService.save(balance);
+
+        // 6. Buscar nueva categoría
         Category category = categoryService.getCategoryById(dto.categoryID(), username);
+        
+        // 7. Actualizar campos del movimiento
         existingMovement.setAmount(dto.amount());
         existingMovement.setCategory(category);
         existingMovement.setCurrency(dto.currency());
-        existingMovement.setDate(dto.date());
         existingMovement.setDescription(dto.description());
         existingMovement.setMovementType(dto.movementType());
-        existingMovement.setReference(dto.reference());
-
-
-
-    
+        existingMovement.setDate(dto.date());
+        existingMovement.setReference(username); // Se mantiene el username del usuario autenticado
+        
+        // 8. Guardar movimiento actualizado
+        Movement updated = movementRepository.save(existingMovement);
+        
+        // 9. Retornar respuesta
+        return mapToResponseDTO(updated);
     }
 }
