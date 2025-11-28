@@ -54,12 +54,11 @@ public class MovementController {
         ));
     }
 
-    @PutMapping
+    @PutMapping("/{movementId}")
     public ResponseEntity<MovementResponseDTO> updateMovement(@PathVariable Long movementId, @RequestBody MovementDTO dto, Authentication auth){
-        movementService.updateMovement(movementId, dto, auth.getName());
+        MovementResponseDTO updated = movementService.updateMovement(movementId, dto, auth.getName());
 
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED);
+        return ResponseEntity.ok(updated);
 
     }
 }
