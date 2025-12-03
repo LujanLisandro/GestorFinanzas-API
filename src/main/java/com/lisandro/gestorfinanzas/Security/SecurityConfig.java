@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // Público
                         .requestMatchers("/api/users").permitAll() // Público
+                        .requestMatchers("/api/dolar").permitAll() // Público
                         .anyRequest().authenticated() // Todo lo demás protegido
                 )
                 .addFilterBefore(new JwtTokenValidator(jwtUtils, tokenBlacklistService),
