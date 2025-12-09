@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: gestorfinanzas-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: gestorfinanzas
+      MYSQL_USER: ${DB_USERNAME:-gestoruser}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-rootpassword}
+    ports:
+      - "3307:3306"  # Puerto 3307 en host para evitar conflictos
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - gestorfinanzas-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD:-rootpassword}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gestorfinanzas-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      # Database
+      DB_URL: jdbc:mysql://mysql:3306/gestorfinanzas?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      DB_USERNAME: ${DB_USERNAME:-gestoruser}
+      DB_PASSWORD: ${DB_PASSWORD:-rootpassword}
+      
+      # JWT
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-44baf780f484b615fbb0f9cc6a3db9b51fd873a416d7ced9797bb9f5a18d977d}
+      JWT_ISSUER: ${JWT_ISSUER:-GESTORFINANZAS-SEC}
+      
+      # Admin
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-changeme}
+      
+      # JPA
+      JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
+      
+      # Server
+      SERVER_PORT: 8080
+      
+      # Java Options
+      JAVA_OPTS: "-Xmx512m -Xms256m"
+    ports:
+      - "8080:8080"
+    networks:
+      - gestorfinanzas-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  gestorfinanzas-network:
+    driver: bridge

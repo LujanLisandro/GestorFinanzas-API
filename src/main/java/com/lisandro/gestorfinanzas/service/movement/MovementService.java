@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -104,7 +106,12 @@ public class MovementService implements IMovementService {
             spec = spec.and(MovementSpecifications.hasMovementType(type));
         }
 
-        Page<Movement> movementsPage = movementRepository.findAll(spec, pageable);
+        // Si no viene ordenamiento, ordenar por fecha descendente (más recientes primero)
+        Pageable sortedPageable = pageable.getSort().isSorted() 
+            ? pageable 
+            : PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "date"));
+
+        Page<Movement> movementsPage = movementRepository.findAll(spec, sortedPageable);
         
         return movementsPage.map(this::mapToResponseDTO);
     }
