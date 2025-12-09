@@ -33,7 +33,7 @@ services:
         condition: service_healthy
     environment:
       # Database
-      DB_URL: jdbc:mysql://mysql:3306/gestorfinanzas?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      DB_URL: ${DB_URL:-jdbc:mysql://mysql:3306/gestorfinanzas?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
       DB_USERNAME: ${DB_USERNAME:-gestoruser}
       DB_PASSWORD: ${DB_PASSWORD:-rootpassword}
       
