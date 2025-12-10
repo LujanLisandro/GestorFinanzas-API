@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.lisandro.gestorfinanzas.Security.Filter.JwtTokenValidator;
+import com.lisandro.gestorfinanzas.filter.RateLimitFilter;
 import com.lisandro.gestorfinanzas.service.auth.TokenBlacklistService;
 import com.lisandro.gestorfinanzas.utils.JwtUtils;
 
@@ -32,6 +33,9 @@ public class SecurityConfig {
     @Autowired
     private TokenBlacklistService tokenBlacklistService;
 
+    @Autowired
+    private RateLimitFilter rateLimitFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -44,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/dolar").permitAll() // Público
                         .anyRequest().authenticated() // Todo lo demás protegido
                 )
+                .addFilterBefore(rateLimitFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(new JwtTokenValidator(jwtUtils, tokenBlacklistService),
                         BasicAuthenticationFilter.class);
         return http.build(); // "CREAR" LA HTTP Y BUILDERLA
