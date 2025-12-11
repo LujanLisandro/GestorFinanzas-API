@@ -19,7 +19,7 @@ public class CorsConfig {
                 configuration.setAllowedOrigins(Arrays.asList(
                                 "http://localhost:5173",
                                 "http://127.0.0.1:5173",
-                                "http://gestorfinanzas-api-production.up.railway.app",
+                                "https://finanpro-beta.vercel.app/",
                                 "http://192.168.0.10:5173"));
 
                 // Métodos HTTP permitidos
