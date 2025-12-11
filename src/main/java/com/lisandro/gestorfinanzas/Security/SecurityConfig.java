@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.lisandro.gestorfinanzas.Security.Filter.JwtTokenValidator;
 import com.lisandro.gestorfinanzas.filter.RateLimitFilter;
@@ -36,10 +37,14 @@ public class SecurityConfig {
     @Autowired
     private RateLimitFilter rateLimitFilter;
 
+    @Autowired
+    private CorsConfigurationSource corsConfigurationSource;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // Deshabilita una proteccion INVESTIGAR
+                .cors(cors -> cors.configurationSource(corsConfigurationSource)) // Habilita CORS
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Politica
                 .logout(logout -> logout.disable()) // Deshabilita logout automático (no se usa con JWT)
                 .authorizeHttpRequests(auth -> auth
