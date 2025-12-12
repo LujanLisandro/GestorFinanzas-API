@@ -54,9 +54,9 @@ public class MovementService implements IMovementService {
         movement.setDescription(dto.description());
         movement.setMovementType(dto.movementType());
         movement.setCurrency(dto.currency());
-        movement.setReference(username);
+        movement.setReference(dto.reference());
         movement.setCategory(category);
-        // fecha se asigna automáticamente por @PrePersist
+        movement.setDate(dto.date()); // Si viene null, @PrePersist asigna fecha actual
         
         Movement savedMovement = movementRepository.save(movement);
         
