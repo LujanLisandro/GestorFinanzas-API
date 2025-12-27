@@ -52,4 +52,17 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + username));
     }
 
+    @Override
+    public void markTutorialComplete(String username) {
+        UserSec user = findByUsername(username);
+        user.setTutorialComplete(true);
+        save(user);
+    }
+
+    @Override
+    public Boolean isTutorialComplete(String username) {
+        UserSec user = findByUsername(username);
+        return user.isTutorialComplete();
+    }
+
 }

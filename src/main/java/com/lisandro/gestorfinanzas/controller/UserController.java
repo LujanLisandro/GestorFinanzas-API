@@ -9,14 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.lisandro.gestorfinanzas.model.Role;
 import com.lisandro.gestorfinanzas.model.UserSec;
 import com.lisandro.gestorfinanzas.service.role.IRoleService;
 import com.lisandro.gestorfinanzas.service.user.IUserService;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/api/users")
@@ -58,5 +59,18 @@ public class UserController {
         return ResponseEntity.ok(user);
 
     }
+    @PutMapping("/tutorial/complete")
+    public ResponseEntity <Void> markTutorialComplete(Authentication auth){
+        String username = auth.getName();
+        userService.markTutorialComplete(username);
+        return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/tutorial")
+    public ResponseEntity<Boolean> getTutorialComplete(Authentication auth){
+        String username = auth.getName();
+        Boolean isComplete = userService.isTutorialComplete(username);
+        return ResponseEntity.ok(isComplete);
+    }
+
 
 }

@@ -21,4 +21,8 @@ public interface IUserService {
 
     String encriptPassword(String password);
 
+    void markTutorialComplete (String username);
+
+    Boolean isTutorialComplete(String username);
+
 }
