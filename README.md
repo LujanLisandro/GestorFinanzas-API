@@ -383,7 +383,7 @@ Si deseas contribuir a este proyecto, puedes hacer un **fork**, crear una rama c
 ---
 
 ## 👤 Autor
-💡 **Lichu** - [GitHub](https://github.com/Lichu0800)
+💡 **Lisandro** - [GitHub](https://github.com/LujanLisandro)
 
 ---
 
