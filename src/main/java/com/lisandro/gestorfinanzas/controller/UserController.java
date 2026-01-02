@@ -27,19 +27,7 @@ public class UserController {
 
     @Autowired
     private IRoleService roleService;
-
-    @GetMapping
-    public ResponseEntity<List<UserSec>> getAllUsers() {
-        List<UserSec> users = userService.findAll();
-        return ResponseEntity.ok(users);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<UserSec> getUserById(@PathVariable Long id) {
-        UserSec user = userService.findById(id).orElse(null);
-        return ResponseEntity.ok(user);
-    }
-
+    
     @PostMapping
     public ResponseEntity<UserSec> createUser(@RequestBody UserSec user) {
         Set<Role> validList = new HashSet<>();
