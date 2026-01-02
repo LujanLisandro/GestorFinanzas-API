@@ -291,8 +291,6 @@ POST /auth/logout      # Logout (requiere token)
 
 ### **Usuarios** (`/api/users`)
 ```http
-GET    /api/users                    # Listar usuarios (auth)
-GET    /api/users/{id}               # Obtener usuario (auth)
 POST   /api/users                    # Crear usuario (público)
 PUT    /api/users/tutorial/complete  # Marcar tutorial completo (auth)
 GET    /api/users/tutorial           # Estado del tutorial (auth)
