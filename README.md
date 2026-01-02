@@ -291,8 +291,6 @@ POST /auth/logout      # Logout (requiere token)
 
 ### **Usuarios** (`/api/users`)
 ```http
-GET    /api/users                    # Listar usuarios (auth)
-GET    /api/users/{id}               # Obtener usuario (auth)
 POST   /api/users                    # Crear usuario (público)
 PUT    /api/users/tutorial/complete  # Marcar tutorial completo (auth)
 GET    /api/users/tutorial           # Estado del tutorial (auth)
@@ -355,15 +353,6 @@ curl -X POST http://localhost:8080/auth/login \
 ## 🤝 Contribuciones
 
 Este es un proyecto de portfolio personal, pero si tienes sugerencias o encuentras algún bug, no dudes en abrir un **issue** o **pull request**.
-
----
-
-## 📧 Contacto
-
-**Lisandro**  
-- GitHub: [@Lichu0800](https://github.com/Lichu0800)
-- LinkedIn: [Tu perfil de LinkedIn]
-- Email: tu_email@example.com
 
 ---
 
