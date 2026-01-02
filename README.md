@@ -356,15 +356,6 @@ Este es un proyecto de portfolio personal, pero si tienes sugerencias o encuentr
 
 ---
 
-## 📧 Contacto
-
-**Lisandro**  
-- GitHub: [@Lichu0800](https://github.com/Lichu0800)
-- LinkedIn: [Tu perfil de LinkedIn]
-- Email: tu_email@example.com
-
----
-
 ## 📄 Licencia
 
 Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
