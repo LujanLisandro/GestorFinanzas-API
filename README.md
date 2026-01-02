@@ -211,6 +211,18 @@ src/main/java/com/lisandro/gestorfinanzas/
 
 ---
 
+## 🎯 Roadmap Futuro
+
+- [ ] Apartado de estadisticas mas completo
+- [ ] Metas de ahorro
+- [ ] Recordatorios de pagos
+- [ ] Integración con servicios de inversión
+- [ ] Notificaciones por email
+- [ ] Gastos fijos
+
+---
+
+
 ## 🛠️ Instalación y Configuración
 
 ### **Prerequisitos**
@@ -340,19 +352,6 @@ curl -X POST http://localhost:8080/auth/login \
 
 ---
 
-## 🎯 Roadmap Futuro
-
-- [ ] Reportes financieros en PDF
-- [ ] Dashboard con estadísticas
-- [ ] Metas de ahorro
-- [ ] Recordatorios de pagos
-- [ ] Integración con servicios de inversión
-- [ ] Exportación de datos a Excel
-- [ ] Notificaciones por email
-- [ ] API de webhooks
-
----
-
 ## 🤝 Contribuciones
 
 Este es un proyecto de portfolio personal, pero si tienes sugerencias o encuentras algún bug, no dudes en abrir un **issue** o **pull request**.
@@ -384,7 +383,7 @@ Si deseas contribuir a este proyecto, puedes hacer un **fork**, crear una rama c
 ---
 
 ## 👤 Autor
-💡 **Lichu** - [GitHub](https://github.com/Lichu0800)
+💡 **Lisandro** - [GitHub](https://github.com/LujanLisandro)
 
 ---
 
