@@ -1,13 +1,11 @@
 package com.lisandro.gestorfinanzas.controller;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +16,7 @@ import com.lisandro.gestorfinanzas.model.UserSec;
 import com.lisandro.gestorfinanzas.service.role.IRoleService;
 import com.lisandro.gestorfinanzas.service.user.IUserService;
 import org.springframework.security.core.Authentication;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -29,7 +28,7 @@ public class UserController {
     private IRoleService roleService;
     
     @PostMapping
-    public ResponseEntity<UserSec> createUser(@RequestBody UserSec user) {
+    public ResponseEntity<UserSec> createUser(@Valid @RequestBody UserSec user) {
         Set<Role> validList = new HashSet<>();
         Role readRol;
 

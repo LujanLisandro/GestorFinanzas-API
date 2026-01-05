@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,7 +39,12 @@ public class UserSec {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
+    @NotBlank(message = "El nombre de usuario no puede estar vacío")
+    @Pattern(regexp = "^[a-zA-Z]{5,20}$", message = "El nombre de usuario debe contener solo letras, entre 5 y 20 caracteres")
     private String username;
+    @NotBlank(message = "La contraseña no puede estar vacía")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).*$", message = "La contraseña debe contener al menos una mayúscula, un número y un símbolo (!@#$%^&*)")
+    @Size(min = 8, message = "La contraseña debe tener mínimo 8 caracteres")
     private String password;
     private boolean enabled;
     private boolean accountNotExpired;
