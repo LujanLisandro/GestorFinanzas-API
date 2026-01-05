@@ -51,6 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll() // Público
                         .requestMatchers("/api/users").permitAll() // Público
                         .requestMatchers("/api/dolar").permitAll() // Público
+                        .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().authenticated() // Todo lo demás protegido
                 )
                 .addFilterBefore(rateLimitFilter, BasicAuthenticationFilter.class)
