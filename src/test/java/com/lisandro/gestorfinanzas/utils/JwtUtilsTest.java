@@ -1,14 +1,14 @@
 package com.lisandro.gestorfinanzas.utils;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-@ExtendWith(SpringExtension.class)
 public class JwtUtilsTest {
     private JwtUtils jwtUtils;
 
@@ -22,6 +22,16 @@ public class JwtUtilsTest {
     void testExtractUsername(){
         DecodedJWT mockDecodedJWT = Mockito.mock(DecodedJWT.class);
         Mockito.when(mockDecodedJWT.getSubject()).thenReturn("Lisandro");
-        
+        String extractuser = jwtUtils.extractUsername(mockDecodedJWT);
+        assertEquals("Lisandro", extractuser, "El resultado deberia ser Lisandro");
+    }
+    @Test
+    void testGetSpecificClaim(){
+        DecodedJWT mockDecodedJWT = Mockito.mock(DecodedJWT.class);
+        Claim mockClaim = Mockito.mock(Claim.class);
+        Mockito.when(mockDecodedJWT.getClaim("authorities")).thenReturn(mockClaim);
+
+        Claim result = jwtUtils.getSpecificClaim(mockDecodedJWT, "authorities");
+        assertEquals(mockClaim, result, "El resultado esperado es un Claim");
     }
 }

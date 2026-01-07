@@ -14,8 +14,7 @@ public class BalanceService implements IBalanceService {
 
     private final IBalanceRepository balanceRepository;
     private final IUserService userService;
-
-    // Constructor injection (Spring inyecta automáticamente)
+    
     public BalanceService(IBalanceRepository balanceRepository, IUserService userService) {
         this.balanceRepository = balanceRepository;
         this.userService = userService;
